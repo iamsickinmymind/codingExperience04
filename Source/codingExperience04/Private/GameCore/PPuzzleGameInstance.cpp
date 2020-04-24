@@ -136,8 +136,9 @@ void UPPuzzleGameInstance::RefreshServerList() {
 
 	if (SessionSearch.IsValid() && SessionInterface.IsValid()) {
 
+		SessionSearch->bIsLanQuery = false;
 		SessionSearch->MaxSearchResults = 100;
-		SessionSearch->QuerySettings.Set(FName("SEARCH_PRESENCE"), true, EOnlineComparisonOp::Equals);
+		SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 
 		SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 	}
