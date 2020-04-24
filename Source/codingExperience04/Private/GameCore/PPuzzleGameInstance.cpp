@@ -15,7 +15,7 @@
 #include "PInGameMenu.h"
 #include "PMainMenu.h"
 
-const static FName SESSION_NAME = "DefaultGameSession";
+const static FName SESSION_NAME = "PuzzleGameDefaultSession";
 
 UPPuzzleGameInstance::UPPuzzleGameInstance() {
 
