@@ -136,8 +136,7 @@ void UPPuzzleGameInstance::RefreshServerList() {
 
 	if (SessionSearch.IsValid() && SessionInterface.IsValid()) {
 
-		// search settings to shared ref
-		SessionSearch->bIsLanQuery = true;
+		SessionSearch->MaxSearchResults = 100;
 		SessionSearch->QuerySettings.Set(FName("SEARCH_PRESENCE"), true, EOnlineComparisonOp::Equals);
 
 		SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
@@ -192,6 +191,8 @@ void UPPuzzleGameInstance::OnSessionDestroyed(FName SessionName, bool Success) {
 }
 
 void UPPuzzleGameInstance::OnFindSessionCompleted(bool Success) {
+
+	UE_LOG(LogTemp, Warning, TEXT("OnFindSessionCompleted"))
 
 	if (!Success) {
 		if (GetEngine()) GetEngine()->AddOnScreenDebugMessage(0, 5.f, FColor::Red, FString("OnFindSessionCompleted failed"));
