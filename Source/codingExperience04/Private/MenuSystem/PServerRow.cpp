@@ -22,5 +22,6 @@ void UPServerRow::OnRowClicked() {
 	if(Parent != nullptr) {
 
 		Parent->SetSelectedIndex(Index);
+		Parent->UpdateRows();
 	}
 }

@@ -14,6 +14,18 @@ class UScrollBox;
 class UWidgetSwitcher;
 class UPServerRow;
 
+USTRUCT()
+struct FServerData
+{
+
+	GENERATED_BODY()
+
+	FString Name;
+	FString HostUserName;
+	uint16 CurrentPlayers;
+	uint16 MaxPlayers;
+};
+
 /**
  * (P)uzzle User Widget Main Class.
  * Button names in C++ must correspond with WBP button names.
@@ -28,7 +40,9 @@ public:
 
 	UPMainMenu();
 
-	void SetServerList(TArray<FString> ServerNames);
+	void SetServerList(TArray<FServerData> ServerData);
+
+	void UpdateRows();
 
 	FORCEINLINE void SetSelectedIndex(uint32 NewIndex) { SelectedIndex = NewIndex; };
 

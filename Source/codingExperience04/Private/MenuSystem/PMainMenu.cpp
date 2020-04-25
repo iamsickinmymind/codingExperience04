@@ -37,6 +37,19 @@ bool UPMainMenu::Initialize() {
 	return true;
 }
 
+void UPMainMenu::UpdateRows() {
+
+	for (int32 i = 0; i < ServerListScrollBox->GetChildrenCount(); ++i) {
+
+		UPServerRow* ChildRow = Cast<UPServerRow>(ServerListScrollBox->GetChildAt(i));
+
+		if(ChildRow != nullptr) {
+
+			ChildRow->bSelected = (SelectedIndex.IsSet() && i == SelectedIndex.GetValue());
+		}
+	}
+}
+
 void UPMainMenu::OnHostGameClicked() {
 
 	if (MenuInterface) {
@@ -91,7 +104,7 @@ void UPMainMenu::OnExitGameClicked() {
 	}
 }
 
-void UPMainMenu::SetServerList(TArray<FString> ServerNames) {
+void UPMainMenu::SetServerList(TArray<FServerData> ServerData) {
 
 	if (ServerListScrollBox != nullptr) {
 
@@ -99,13 +112,15 @@ void UPMainMenu::SetServerList(TArray<FString> ServerNames) {
 
 		uint32 i = 0;
 
-		for (const FString& Itr : ServerNames) {
+		for (const FServerData& Itr : ServerData) {
 
 			UPServerRow* TempServerRow = CreateWidget<UPServerRow>(this, ServerRowsClass);
 
 			if (TempServerRow) {
 
-				TempServerRow->ServerNameTextBox->SetText(FText::FromString(Itr));
+					TempServerRow->ServerNameTextBox->SetText(FText::FromString(Itr.Name.Mid(0, 10)));
+					TempServerRow->HostNameTextBlock->SetText(FText::FromString(Itr.HostUserName));
+					TempServerRow->ConnectionFractionTextBlock->SetText(FText::FromString(FString::FromInt(Itr.CurrentPlayers).Append("/").Append(FString::FromInt(Itr.MaxPlayers))));
 				TempServerRow->Setup(this, i);
 				++i;
 

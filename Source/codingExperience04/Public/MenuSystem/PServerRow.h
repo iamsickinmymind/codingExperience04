@@ -24,7 +24,16 @@ public:
 	UTextBlock* ServerNameTextBox = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* HostNameTextBlock = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* ConnectionFractionTextBlock = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* ServerRowButton = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category = "UI")
+	bool bSelected;
 
 protected:
 
