@@ -210,8 +210,8 @@ void UPPuzzleGameInstance::OnFindSessionCompleted(bool Success) {
 			FServerData Data;
 				Data.Name = Itr.GetSessionIdStr();
 				Data.HostUserName = Itr.Session.OwningUserName;
-				Data.CurrentPlayers = Itr.Session.NumOpenPublicConnections;
 				Data.MaxPlayers = Itr.Session.SessionSettings.NumPublicConnections;
+				Data.CurrentPlayers = Data.MaxPlayers - Itr.Session.NumOpenPublicConnections;
 
 			ServerData.Add(Data);
 		}

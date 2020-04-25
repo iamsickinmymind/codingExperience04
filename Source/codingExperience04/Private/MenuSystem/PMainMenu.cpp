@@ -118,7 +118,7 @@ void UPMainMenu::SetServerList(TArray<FServerData> ServerData) {
 
 			if (TempServerRow) {
 
-					TempServerRow->ServerNameTextBox->SetText(FText::FromString(Itr.Name.Mid(0, 10)));
+					TempServerRow->ServerNameTextBox->SetText(FText::FromString(Itr.Name));
 					TempServerRow->HostNameTextBlock->SetText(FText::FromString(Itr.HostUserName));
 					TempServerRow->ConnectionFractionTextBlock->SetText(FText::FromString(FString::FromInt(Itr.CurrentPlayers).Append("/").Append(FString::FromInt(Itr.MaxPlayers))));
 				TempServerRow->Setup(this, i);
