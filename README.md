@@ -9,8 +9,9 @@ This game is basically a showcase of coding experience that proves my knowledge 
 ### SKILLS USED
 
 * Unreal Engine 4
-** Unreal Engine 4 Online Subsystem
-** Unreal Engine 4 Steam Subsystem
-** Unreal Engine 4 User Interface
+* Unreal Engine 4 Online Subsystem
+* Unreal Engine 4 Steam Subsystem
+* Unreal Engine 4 User Interface
+
 * Visual Studio 2017
 * VisualAssistX
