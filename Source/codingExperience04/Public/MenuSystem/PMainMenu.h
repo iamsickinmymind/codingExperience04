@@ -64,6 +64,12 @@ protected:
 
 	UFUNCTION()
 	void OnExitGameClicked();
+
+	UFUNCTION()
+	void OnHostMenuClicked();
+
+	UFUNCTION()
+	void OnCancelHostMenuClicked();
 	
 protected:
 
@@ -105,7 +111,21 @@ protected:
 	UWidget* MainMenu;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UWidget* HostGameMenu;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UScrollBox* ServerListScrollBox = nullptr;
+
+	// Custom server name is limited to 24 chars
+	// Limitation is done in BP
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UEditableText* CustomServerName = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* HostServerButton = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* CancelHostButton = nullptr;
 
 	// To bind this TextBox the WBP must have a TextBox with the same name
 	// TexytBox to write IP Address in

@@ -28,11 +28,16 @@ bool UPMainMenu::Initialize() {
 
 	if (!bSuccess || !HostGameButton || !JoinGameButton) return !bSuccess;
 
-	HostGameButton->OnClicked.AddDynamic(this, &UPMainMenu::OnHostGameClicked);
+	ExitGameButton->OnClicked.AddDynamic(this, &UPMainMenu::OnExitGameClicked);
+
+	HostGameButton->OnClicked.AddDynamic(this, &UPMainMenu::OnHostMenuClicked);
 	JoinGameButton->OnClicked.AddDynamic(this, &UPMainMenu::OnJoinGameClicked);
+
 	JoinServerButton->OnClicked.AddDynamic(this, &UPMainMenu::OnJoinServerClicked);
 	CancelJoinButton->OnClicked.AddDynamic(this, &UPMainMenu::OnCancelJoinClicked);
-	ExitGameButton->OnClicked.AddDynamic(this, &UPMainMenu::OnExitGameClicked);
+
+	HostServerButton->OnClicked.AddDynamic(this, &UPMainMenu::OnHostGameClicked);
+	CancelHostButton->OnClicked.AddDynamic(this, &UPMainMenu::OnCancelHostMenuClicked);
 
 	return true;
 }
@@ -54,7 +59,32 @@ void UPMainMenu::OnHostGameClicked() {
 
 	if (MenuInterface) {
 
-		MenuInterface->HostServer();
+		if (CustomServerName->GetText().ToString().Len() > 0) {
+
+			MenuInterface->HostServer(CustomServerName->GetText().ToString().ToUpper());
+		}
+		else {
+
+			MenuInterface->HostServer("UnknownServerName");
+		}
+	}
+}
+
+void UPMainMenu::OnHostMenuClicked() {
+
+	if (MenuSwitcher && HostGameMenu) {
+
+		MenuSwitcher->SetActiveWidget(HostGameMenu);
+	}
+	else return;
+}
+
+void UPMainMenu::OnCancelHostMenuClicked() {
+
+	if (MenuSwitcher && MainMenu) {
+
+		CustomServerName->SetText(FText::GetEmpty());
+		MenuSwitcher->SetActiveWidget(MainMenu);
 	}
 }
 

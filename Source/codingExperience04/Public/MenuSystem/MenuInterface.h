@@ -25,7 +25,7 @@ public:
 
 	// pure fce
 	// actual logic will be implemented in child class
-	virtual void HostServer() = 0;
+	virtual void HostServer(FString ServerName) = 0;
 	virtual void JoinServer(const uint32 SessionIndex ) = 0;
 
 	virtual void ReloadMainMenu() = 0;

@@ -15,7 +15,8 @@
 #include "PInGameMenu.h"
 #include "PMainMenu.h"
 
-const static FName SESSION_NAME = "PuzzleGameDefaultSession";
+const static FName SESSION_NAME_KEY = TEXT("PuzzleGameDefaultSession");
+const static FName SERVER_NAME_KEY = TEXT("ServerCustomName");
 
 UPPuzzleGameInstance::UPPuzzleGameInstance() {
 
@@ -89,17 +90,17 @@ void UPPuzzleGameInstance::LoadInGameMenu() {
 	}
 }
 
-void UPPuzzleGameInstance::HostServer() {
+void UPPuzzleGameInstance::HostServer(FString ServerName) {
+
+	DesiredServerName = ServerName;
 
 	if (SessionInterface.IsValid()) {
 
-		if (GetEngine()) GetEngine()->AddOnScreenDebugMessage(0, 5.f, FColor::Green, FString("HostServer called"));
-
-		auto ExistingSession = SessionInterface->GetNamedSession(SESSION_NAME);
+		auto ExistingSession = SessionInterface->GetNamedSession(SESSION_NAME_KEY);
 
 		if (ExistingSession != nullptr) {
 
-			SessionInterface->DestroySession(SESSION_NAME);
+			SessionInterface->DestroySession(SESSION_NAME_KEY);
 		}
 		else {
 
@@ -115,7 +116,7 @@ void UPPuzzleGameInstance::JoinServer(const uint32 SessionIndex) {
 
 	MainMenu->Remove();
 
-	SessionInterface->JoinSession(0, SESSION_NAME, SessionSearch->SearchResults[SessionIndex]);
+	SessionInterface->JoinSession(0, SESSION_NAME_KEY, SessionSearch->SearchResults[SessionIndex]);
 }
 
 void UPPuzzleGameInstance::ReloadMainMenu() {
@@ -153,12 +154,13 @@ void UPPuzzleGameInstance::CreateSession() {
 			SessionSettings.NumPublicConnections = 2;
 			SessionSettings.bShouldAdvertise = true;
 			SessionSettings.bUsesPresence = true;
+			SessionSettings.Set(SERVER_NAME_KEY, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 
 			IOnlineSubsystem* ActiveOnlineSubsystem = IOnlineSubsystem::Get();
 			if (IOnlineSubsystem::Get()->GetSubsystemName() == FName("NULL")) { SessionSettings.bIsLANMatch = true; }
 			else { SessionSettings.bIsLANMatch = false; }
 
-		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
+		SessionInterface->CreateSession(0, SESSION_NAME_KEY, SessionSettings);
 	}
 }
 
@@ -208,7 +210,11 @@ void UPPuzzleGameInstance::OnFindSessionCompleted(bool Success) {
 		for (const FOnlineSessionSearchResult& Itr : SessionSearch->SearchResults) {
 
 			FServerData Data;
-				Data.Name = Itr.GetSessionIdStr();
+			FString TempName;
+
+			Itr.Session.SessionSettings.Get(SERVER_NAME_KEY, TempName); 
+
+				Data.Name = TempName;
 				Data.HostUserName = Itr.Session.OwningUserName;
 				Data.MaxPlayers = Itr.Session.SessionSettings.NumPublicConnections;
 				Data.CurrentPlayers = Data.MaxPlayers - Itr.Session.NumOpenPublicConnections;

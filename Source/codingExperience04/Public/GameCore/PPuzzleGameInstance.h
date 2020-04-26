@@ -31,7 +31,7 @@ public:
 	virtual void Init() override;
 
 	UFUNCTION(Exec)
-	void HostServer() override;
+	void HostServer(FString ServerName) override;
 
 	UFUNCTION(Exec)
 	void JoinServer(const uint32 SessionIndex) override;
@@ -53,6 +53,7 @@ private:
 	UPMainMenu* MainMenu = nullptr;
 	IOnlineSessionPtr SessionInterface;
 	TSharedPtr < FOnlineSessionSearch > SessionSearch;
+	FString DesiredServerName;
 
 	void OnSessionCreated(FName SessionName, bool Success);
 	void OnSessionDestroyed(FName SessionName, bool Success);
