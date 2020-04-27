@@ -6,17 +6,6 @@
 #include "Engine/StaticMeshActor.h"
 #include "PMovingPlatform.generated.h"
 
-// UENUM(BlueprintType)
-// enum class EMS_MovementStyle : uint8 {
-// 
-// 	// Moves in Cirlce
-// 	EMS_Circular		UMETA(DisplayName = "Circular Movement"),
-// 	// Moves to Target point
-// 	EMS_ToTargetPoint	UMETA(DisplayName = "To Taret Point"),
-// 	// Moves smoothly up and down
-// 	EMS_Sinusoid		UMETA(DisplayName = "Sinusoud on Z"),
-// 	EMS_Default			UMETA(Hidden)
-// };
 
 /**
  * P(uzzle) Moving Platform.

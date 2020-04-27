@@ -63,10 +63,6 @@ void UPMainMenu::OnHostGameClicked() {
 
 			MenuInterface->HostServer(CustomServerName->GetText().ToString().ToUpper());
 		}
-		else {
-
-			MenuInterface->HostServer("UnknownServerName");
-		}
 	}
 }
 

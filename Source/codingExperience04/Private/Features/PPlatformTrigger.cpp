@@ -22,6 +22,8 @@ APPlatformTrigger::APPlatformTrigger()
 	BillboardComp->SetupAttachment(GetRootComponent());
 	
 	SetReplicates(true);
+
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 // Called when the game starts or when spawned

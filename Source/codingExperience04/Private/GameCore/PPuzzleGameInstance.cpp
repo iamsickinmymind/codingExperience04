@@ -15,7 +15,8 @@
 #include "PInGameMenu.h"
 #include "PMainMenu.h"
 
-const static FName SESSION_NAME_KEY = TEXT("PuzzleGameDefaultSession");
+// Replaced with NAME_GameSession system const
+//const static FName NAME_GameSession = NAME_GameSession; //TEXT("GameSession");
 const static FName SERVER_NAME_KEY = TEXT("ServerCustomName");
 
 UPPuzzleGameInstance::UPPuzzleGameInstance() {
@@ -96,11 +97,11 @@ void UPPuzzleGameInstance::HostServer(FString ServerName) {
 
 	if (SessionInterface.IsValid()) {
 
-		auto ExistingSession = SessionInterface->GetNamedSession(SESSION_NAME_KEY);
+		auto ExistingSession = SessionInterface->GetNamedSession(NAME_GameSession);
 
 		if (ExistingSession != nullptr) {
 
-			SessionInterface->DestroySession(SESSION_NAME_KEY);
+			SessionInterface->DestroySession(NAME_GameSession);
 		}
 		else {
 
@@ -116,7 +117,7 @@ void UPPuzzleGameInstance::JoinServer(const uint32 SessionIndex) {
 
 	MainMenu->Remove();
 
-	SessionInterface->JoinSession(0, SESSION_NAME_KEY, SessionSearch->SearchResults[SessionIndex]);
+	SessionInterface->JoinSession(0, NAME_GameSession, SessionSearch->SearchResults[SessionIndex]);
 }
 
 void UPPuzzleGameInstance::ReloadMainMenu() {
@@ -160,7 +161,7 @@ void UPPuzzleGameInstance::CreateSession() {
 			if (IOnlineSubsystem::Get()->GetSubsystemName() == FName("NULL")) { SessionSettings.bIsLANMatch = true; }
 			else { SessionSettings.bIsLANMatch = false; }
 
-		SessionInterface->CreateSession(0, SESSION_NAME_KEY, SessionSettings);
+		SessionInterface->CreateSession(0, NAME_GameSession, SessionSettings);
 	}
 }
 
@@ -178,14 +179,14 @@ void UPPuzzleGameInstance::OnSessionCreated(FName SessionName, bool Success) {
 		if (GetEngine()) GetEngine()->AddOnScreenDebugMessage(0, 5.f, FColor::Red, FString("OnSessionCreated failed"));
 		return;
 	}
-	if (MainMenu) {
+	if (MainMenu != nullptr) {
 
 		MainMenu->Remove();
 	}
 
-	if (GetWorld()) {
+	if (GetWorld() != nullptr) {
 
-		GetWorld()->ServerTravel("/Game/Maps/MAP_PuzzleMap?listen");
+		GetWorld()->ServerTravel("/Game/Maps/MAP_Lobby?listen");
 	}
 }
 
@@ -193,7 +194,7 @@ void UPPuzzleGameInstance::OnSessionDestroyed(FName SessionName, bool Success) {
 
 	if (Success) {
 
-		CreateSession();
+		//CreateSession();
 	}
 }
 
