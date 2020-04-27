@@ -42,9 +42,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Main Menu")
 	void LoadInGameMenu();
 
+	void StartSession();
+
 	virtual void ReloadMainMenu() override;
 	virtual void RefreshServerList() override;
 	virtual void ExitGame_Desktop() override;
+
+protected:
+
+	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
+	int32 MaxPlayers;
 
 private:
 

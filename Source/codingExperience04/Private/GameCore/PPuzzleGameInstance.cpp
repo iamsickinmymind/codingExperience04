@@ -37,6 +37,8 @@ UPPuzzleGameInstance::UPPuzzleGameInstance() {
 		MainMenuClass = TempMainMenuClass.Class;
 		InGameMenuClass = TempInGameMenuClass.Class;
 	}
+
+	MaxPlayers = 5;
 }
 
 void UPPuzzleGameInstance::Init() {
@@ -152,7 +154,7 @@ void UPPuzzleGameInstance::CreateSession() {
 
 		FOnlineSessionSettings SessionSettings;
 
-			SessionSettings.NumPublicConnections = 2;
+			SessionSettings.NumPublicConnections = MaxPlayers;
 			SessionSettings.bShouldAdvertise = true;
 			SessionSettings.bUsesPresence = true;
 			SessionSettings.Set(SERVER_NAME_KEY, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
@@ -162,6 +164,14 @@ void UPPuzzleGameInstance::CreateSession() {
 			else { SessionSettings.bIsLANMatch = false; }
 
 		SessionInterface->CreateSession(0, NAME_GameSession, SessionSettings);
+	}
+}
+
+void UPPuzzleGameInstance::StartSession() {
+
+	if(SessionInterface.IsValid()) {
+
+		SessionInterface->StartSession(NAME_GameSession);
 	}
 }
 
@@ -194,7 +204,7 @@ void UPPuzzleGameInstance::OnSessionDestroyed(FName SessionName, bool Success) {
 
 	if (Success) {
 
-		//CreateSession();
+		CreateSession();
 	}
 }
 
